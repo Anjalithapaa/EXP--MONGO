@@ -74,7 +74,7 @@ app.post('/login', async function(req, res) {
     const { userID, password } = req.body;
     try {
         // Check if login credentials exist in the database
-        const user = await credentialsCollection.findOne({ userID, password });
+        const user = await credentialsCollection.findOne({ userId, password });
         if (user) {
             // Generate authentication cookie
             res.cookie('auth', 'authenticated', { maxAge: 60000 }); // Expires in 1 minute
