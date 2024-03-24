@@ -169,7 +169,8 @@ app.post('/register', async function(req, res) {
         await credentialsCollection.insertOne({ userID, password });
         // Send registration success message with footer
         const footer = generateFooter();
-        res.send('Registration successful.' + footer);
+        const registrationSuccessMessage = 'Registration successful. ' + footer;
+        res.send(registrationSuccessMessage);
     } catch (error) {
         console.error('Error during registration:', error);
         res.status(500).send('Registration failed.');
@@ -223,7 +224,8 @@ app.post('/login', async function(req, res) {
             res.cookie('auth', 'authenticated', { maxAge: 60000 }); // Expires in 1 minute
             // Send login success message with footer
             const footer = generateFooter();
-            res.send('Login successful.' + footer);
+            const loginSuccessMessage = 'Login successful. ' + footer;
+            res.send(loginSuccessMessage);
         } else {
             res.send('Invalid username or password.');
         }
