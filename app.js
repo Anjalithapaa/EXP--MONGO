@@ -13,6 +13,64 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+//CSS styles
+const style = `
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding-bottom: 70px; /* Adjusted for the footer */
+            margin: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+`;
+
 // Default route.
 app.get('/', function(req, res) {
     var outstring = `
@@ -22,9 +80,7 @@ app.get('/', function(req, res) {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Home Page</title>
-            <style>
-                /* Add your CSS styles here */
-            </style>
+            ${style}
         </head>
         <body>
             <div class="container">
@@ -46,16 +102,14 @@ app.get('/', function(req, res) {
 
 // Registration form
 app.get('/register-form', function(req, res) {
-    res.send(`
+    var outstring = `
         <!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>User Registration</title>
-            <style>
-                /* Add your CSS styles here */
-            </style>
+            ${style}
         </head>
         <body>
             <div class="container">
@@ -76,21 +130,20 @@ app.get('/register-form', function(req, res) {
             </footer>
         </body>
         </html>
-    `);
+    `;
+    res.send(outstring);
 });
 
 // Login form
 app.get('/login-form', function(req, res) {
-    res.send(`
+    var outstring = `
         <!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>User Login</title>
-            <style>
-                /* Add your CSS styles here */
-            </style>
+            ${style}
         </head>
         <body>
             <div class="container">
@@ -111,9 +164,9 @@ app.get('/login-form', function(req, res) {
             </footer>
         </body>
         </html>
-    `);
+    `;
+    res.send(outstring);
 });
-
 // Task 3: Login functionality
 app.post('/login', async function(req, res) {
     const credentialsCollection = await connectToDatabase();
