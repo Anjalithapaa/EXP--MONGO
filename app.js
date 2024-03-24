@@ -31,13 +31,69 @@ async function connectToDatabase() {
 // Task 2: Registration form
 app.get('/register-form', function(req, res) {
     res.send(`
-        <form action="/register" method="post">
-            <label for="userID">User ID:</label>
-            <input type="text" id="userID" name="userID" required><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br>
-            <input type="submit" value="Register">
-        </form>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>User Registration</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                }
+                .container {
+                    max-width: 400px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    background-color: #fff;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                }
+                h1 {
+                    text-align: center;
+                    margin-bottom: 20px;
+                }
+                label {
+                    display: block;
+                    margin-bottom: 10px;
+                }
+                input[type="text"],
+                input[type="password"] {
+                    width: 100%;
+                    padding: 10px;
+                    margin-bottom: 20px;
+                    border: 1px solid #ccc;
+                    border-radius: 3px;
+                    box-sizing: border-box;
+                }
+                input[type="submit"] {
+                    width: 100%;
+                    padding: 10px;
+                    border: none;
+                    border-radius: 3px;
+                    background-color: #007bff;
+                    color: #fff;
+                    cursor: pointer;
+                }
+                input[type="submit"]:hover {
+                    background-color: #0056b3;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>User Registration</h1>
+                <form action="/register" method="post">
+                    <label for="userID">User ID:</label>
+                    <input type="text" id="userID" name="userID" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <input type="submit" value="Register">
+                </form>
+            </div>
+        </body>
+        </html>
     `);
 });
 
@@ -58,13 +114,69 @@ app.post('/register', async function(req, res) {
 // Task 3: Login form
 app.get('/login-form', function(req, res) {
     res.send(`
-        <form action="/login" method="post">
-            <label for="userID">User ID:</label>
-            <input type="text" id="userID" name="userID" required><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br>
-            <input type="submit" value="Login">
-        </form>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>User Login</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                }
+                .container {
+                    max-width: 400px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    background-color: #fff;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                }
+                h1 {
+                    text-align: center;
+                    margin-bottom: 20px;
+                }
+                label {
+                    display: block;
+                    margin-bottom: 10px;
+                }
+                input[type="text"],
+                input[type="password"] {
+                    width: 100%;
+                    padding: 10px;
+                    margin-bottom: 20px;
+                    border: 1px solid #ccc;
+                    border-radius: 3px;
+                    box-sizing: border-box;
+                }
+                input[type="submit"] {
+                    width: 100%;
+                    padding: 10px;
+                    border: none;
+                    border-radius: 3px;
+                    background-color: #007bff;
+                    color: #fff;
+                    cursor: pointer;
+                }
+                input[type="submit"]:hover {
+                    background-color: #0056b3;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>User Login</h1>
+                <form action="/login" method="post">
+                    <label for="userID">User ID:</label>
+                    <input type="text" id="userID" name="userID" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <input type="submit" value="Login">
+                </form>
+            </div>
+        </body>
+        </html>
     `);
 });
 
@@ -105,7 +217,7 @@ app.get('/active-cookies', function(req, res) {
 // Route to clear all cookies
 app.get('/clear-cookies', function(req, res) {
     res.clearCookie('auth');
-    res.send('All cookies cleared.');
+    res.send('All cookies cleared. <a href="/">Go back</a>');
 });
 
 // Start the server
