@@ -252,10 +252,20 @@ app.get('/active-cookies', function(req, res) {
     res.send('Active Cookies: ' + JSON.stringify(req.cookies));
 });
 
+// Route to view active cookies
+app.get('/active-cookies', function(req, res) {
+    console.log('Active Cookies:', req.cookies);
+    const activeCookiesMessage = 'Active Cookies: ' + JSON.stringify(req.cookies);
+    const footer = generateFooter();
+    res.send(activeCookiesMessage + footer);
+});
+
 // Route to clear all cookies
 app.get('/clear-cookies', function(req, res) {
     res.clearCookie('auth');
-    res.send('All cookies cleared.');
+    const cookiesClearedMessage = 'All cookies cleared.';
+    const footer = generateFooter();
+    res.send(cookiesClearedMessage + footer);
 });
 
 // Start the server
