@@ -216,10 +216,10 @@ app.post('/login', async function(req, res) {
     const credentialsCollection = await connectToDatabase();
     const { userID, password } = req.body;
     try {
-        // Check if login credentials exist in the database
+        // Checks if login credentials exist in the database
         const user = await credentialsCollection.findOne({ userID, password });
         if (user) {
-            // Generate authentication cookie
+            // Generates authentication cookie
             res.cookie('auth', 'authenticated', { maxAge: 60000 }); // Expires in 1 minute
             // Send login success message with footer
             const footer = generateFooter();
@@ -233,7 +233,7 @@ app.post('/login', async function(req, res) {
     }
 });
 
-// Task 4: Include links to a route that prints all active cookies and clears cookies
+// Task 4: Includes links to a route that prints all active cookies and clears cookies
 app.get('/cookies', function(req, res) {
     res.send(`
         <p><a href="/active-cookies">Active Cookies</a></p>
