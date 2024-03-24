@@ -246,19 +246,70 @@ app.get('/cookies', function(req, res) {
     `);
 });
 
-// Middleware to print all active cookies
+// Middleware to print all active cookies and provide options to clear cookies and go back to the home page
 app.get('/active-cookies', function(req, res) {
     console.log('Active Cookies:', req.cookies);
-    res.send('Active Cookies: ' + JSON.stringify(req.cookies));
+    const activeCookiesMessage = 'Active Cookies: ' + JSON.stringify(req.cookies);
+    const footer = generateFooter();
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Active Cookies</title>
+            ${style}
+        </head>
+        <body>
+            <div class="container">
+                <h1>Active Cookies</h1>
+                <p>${activeCookiesMessage}</p>
+            </div>
+            ${footer}
+        </body>
+        </html>
+    `);
 });
+
 
 // Route to view active cookies
 app.get('/active-cookies', function(req, res) {
     console.log('Active Cookies:', req.cookies);
     const activeCookiesMessage = 'Active Cookies: ' + JSON.stringify(req.cookies);
     const footer = generateFooter();
-    res.send(activeCookiesMessage + footer);
+    const pageContent = activeCookiesMessage + footer;
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Active Cookies</title>
+            ${style}
+        </head>
+        <body>
+            <div class="container">
+                <h1>Active Cookies</h1>
+                <p>${activeCookiesMessage}</p>
+                <button onclick="goToHomePage()">Go to Home Page</button>
+                <button onclick="viewMyCookie()">View My Cookie</button>
+            </div>
+            ${footer}
+        </body>
+        <script>
+            function goToHomePage() {
+                window.location.href = "/";
+            }
+
+            function viewMyCookie() {
+                window.location.href = "/cookies";
+            }
+        </script>
+        </html>
+    `);
 });
+
+
 
 // Route to clear all cookies
 app.get('/clear-cookies', function(req, res) {
