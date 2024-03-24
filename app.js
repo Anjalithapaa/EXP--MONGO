@@ -15,20 +15,36 @@ app.use(cookieParser());
 
 // Default route.
 app.get('/', function(req, res) {
-    var outstring = 'Default endpoint starting on date: ' + Date.now();
-    outstring += '<p><a href=\"./register-form\">Register</a></p>';
-    outstring += '<p><a href=\"./login-form\">Login</a></p>';
+    var outstring = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Home Page</title>
+            <style>
+                /* Add your CSS styles here */
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Welcome to Our Website</h1>
+                <p><a href="/register-form">Register</a></p>
+                <p><a href="/login-form">Login</a></p>
+            </div>
+            <footer>
+                <p><a href="/cookies">View My Cookie</a></p>
+                <p><a href="/clear-cookies">Clear My Cookie</a></p>
+                <p><a href="/">Go to Home Page</a></p>
+                <div id="notification">Cookie will expire in 60 seconds</div>
+            </footer>
+        </body>
+        </html>
+    `;
     res.send(outstring);
 });
 
-// MongoDB Connection
-async function connectToDatabase() {
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    await client.connect();
-    return client.db('anjali').collection('loginCredentials');
-}
-
-// Task 2: Registration form
+// Registration form
 app.get('/register-form', function(req, res) {
     res.send(`
         <!DOCTYPE html>
@@ -38,47 +54,7 @@ app.get('/register-form', function(req, res) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>User Registration</title>
             <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    background-color: #f4f4f4;
-                }
-                .container {
-                    max-width: 400px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    background-color: #fff;
-                    border-radius: 5px;
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                }
-                h1 {
-                    text-align: center;
-                    margin-bottom: 20px;
-                }
-                label {
-                    display: block;
-                    margin-bottom: 10px;
-                }
-                input[type="text"],
-                input[type="password"] {
-                    width: 100%;
-                    padding: 10px;
-                    margin-bottom: 20px;
-                    border: 1px solid #ccc;
-                    border-radius: 3px;
-                    box-sizing: border-box;
-                }
-                input[type="submit"] {
-                    width: 100%;
-                    padding: 10px;
-                    border: none;
-                    border-radius: 3px;
-                    background-color: #007bff;
-                    color: #fff;
-                    cursor: pointer;
-                }
-                input[type="submit"]:hover {
-                    background-color: #0056b3;
-                }
+                /* Add your CSS styles here */
             </style>
         </head>
         <body>
@@ -92,26 +68,18 @@ app.get('/register-form', function(req, res) {
                     <input type="submit" value="Register">
                 </form>
             </div>
+            <footer>
+                <p><a href="/cookies">View My Cookie</a></p>
+                <p><a href="/clear-cookies">Clear My Cookie</a></p>
+                <p><a href="/">Go to Home Page</a></p>
+                <div id="notification">Cookie will expire in 60 seconds</div>
+            </footer>
         </body>
         </html>
     `);
 });
 
-// Task 2: Registration functionality
-app.post('/register', async function(req, res) {
-    const credentialsCollection = await connectToDatabase();
-    const { userID, password } = req.body;
-    try {
-        // Insert registration credentials into the database
-        await credentialsCollection.insertOne({ userID, password });
-        res.send('Registration successful.');
-    } catch (error) {
-        console.error('Error during registration:', error);
-        res.status(500).send('Registration failed.');
-    }
-});
-
-// Task 3: Login form
+// Login form
 app.get('/login-form', function(req, res) {
     res.send(`
         <!DOCTYPE html>
@@ -121,47 +89,7 @@ app.get('/login-form', function(req, res) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>User Login</title>
             <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    background-color: #f4f4f4;
-                }
-                .container {
-                    max-width: 400px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    background-color: #fff;
-                    border-radius: 5px;
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                }
-                h1 {
-                    text-align: center;
-                    margin-bottom: 20px;
-                }
-                label {
-                    display: block;
-                    margin-bottom: 10px;
-                }
-                input[type="text"],
-                input[type="password"] {
-                    width: 100%;
-                    padding: 10px;
-                    margin-bottom: 20px;
-                    border: 1px solid #ccc;
-                    border-radius: 3px;
-                    box-sizing: border-box;
-                }
-                input[type="submit"] {
-                    width: 100%;
-                    padding: 10px;
-                    border: none;
-                    border-radius: 3px;
-                    background-color: #007bff;
-                    color: #fff;
-                    cursor: pointer;
-                }
-                input[type="submit"]:hover {
-                    background-color: #0056b3;
-                }
+                /* Add your CSS styles here */
             </style>
         </head>
         <body>
@@ -175,6 +103,12 @@ app.get('/login-form', function(req, res) {
                     <input type="submit" value="Login">
                 </form>
             </div>
+            <footer>
+                <p><a href="/cookies">View My Cookie</a></p>
+                <p><a href="/clear-cookies">Clear My Cookie</a></p>
+                <p><a href="/">Go to Home Page</a></p>
+                <div id="notification">Cookie will expire in 60 seconds</div>
+            </footer>
         </body>
         </html>
     `);
