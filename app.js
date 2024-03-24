@@ -227,7 +227,10 @@ app.post('/login', async function(req, res) {
             const loginSuccessMessage = 'Login successful. ' + footer;
             res.send(loginSuccessMessage);
         } else {
-            res.send('Invalid username or password.');
+            // Send invalid username or password message with footer
+            const footer = generateFooter();
+            const invalidLoginMessage = 'Invalid username or password. ' + footer;
+            res.send(invalidLoginMessage);
         }
     } catch (error) {
         console.error('Error during login:', error);
