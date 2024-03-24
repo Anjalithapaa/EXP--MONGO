@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-//CSS styles
+// CSS styles
 const style = `
     <style>
         body {
@@ -33,17 +33,19 @@ const style = `
         h1 {
             text-align: center;
             margin-bottom: 20px;
+            color: #673ab7; /* Purple color */
         }
         label {
             display: block;
             margin-bottom: 10px;
+            color: #673ab7; /* Purple color */
         }
         input[type="text"],
         input[type="password"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
-            border: 1px solid #ccc;
+            border: 1px solid #673ab7; /* Purple color */
             border-radius: 3px;
             box-sizing: border-box;
         }
@@ -52,12 +54,12 @@ const style = `
             padding: 10px;
             border: none;
             border-radius: 3px;
-            background-color: #007bff;
+            background-color: #673ab7; /* Purple color */
             color: #fff;
             cursor: pointer;
         }
         input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #512da8; /* Darker shade of purple */
         }
         footer {
             position: fixed;
@@ -71,7 +73,10 @@ const style = `
     </style>
 `;
 
-// Default route.
+
+
+
+// Default route (Home Page)
 app.get('/', function(req, res) {
     var outstring = `
         <!DOCTYPE html>
@@ -99,6 +104,13 @@ app.get('/', function(req, res) {
     `;
     res.send(outstring);
 });
+
+// MongoDB Connection
+async function connectToDatabase() {
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    await client.connect();
+    return client.db('anjali').collection('loginCredentials');
+}
 
 // Registration form
 app.get('/register-form', function(req, res) {
@@ -134,6 +146,36 @@ app.get('/register-form', function(req, res) {
     res.send(outstring);
 });
 
+
+// Function to generate footer HTML
+function generateFooter() {
+    return `
+        <footer>
+            <p><a href="/cookies">View My Cookie</a></p>
+            <p><a href="/clear-cookies">Clear My Cookie</a></p>
+            <p><a href="/">Go to Home Page</a></p>
+            <div id="notification">Cookie will expire in 60 seconds</div>
+        </footer>
+    `;
+}
+
+
+// Task 2: Registration functionality
+app.post('/register', async function(req, res) {
+    const credentialsCollection = await connectToDatabase();
+    const { userID, password } = req.body;
+    try {
+        // Insert registration credentials into the database
+        await credentialsCollection.insertOne({ userID, password });
+        // Send registration success message with footer
+        const footer = generateFooter();
+        res.send('Registration successful.' + footer);
+    } catch (error) {
+        console.error('Error during registration:', error);
+        res.status(500).send('Registration failed.');
+    }
+});
+
 // Login form
 app.get('/login-form', function(req, res) {
     var outstring = `
@@ -167,6 +209,8 @@ app.get('/login-form', function(req, res) {
     `;
     res.send(outstring);
 });
+
+
 // Task 3: Login functionality
 app.post('/login', async function(req, res) {
     const credentialsCollection = await connectToDatabase();
@@ -177,7 +221,9 @@ app.post('/login', async function(req, res) {
         if (user) {
             // Generate authentication cookie
             res.cookie('auth', 'authenticated', { maxAge: 60000 }); // Expires in 1 minute
-            res.send('Login successful.');
+            // Send login success message with footer
+            const footer = generateFooter();
+            res.send('Login successful.' + footer);
         } else {
             res.send('Invalid username or password.');
         }
@@ -204,7 +250,7 @@ app.get('/active-cookies', function(req, res) {
 // Route to clear all cookies
 app.get('/clear-cookies', function(req, res) {
     res.clearCookie('auth');
-    res.send('All cookies cleared. <a href="/">Go back</a>');
+    res.send('All cookies cleared.');
 });
 
 // Start the server
